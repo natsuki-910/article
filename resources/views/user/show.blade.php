@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-10 col-md-offset-2">
-        <h2{{ $user->name }}の記事一覧</h2>
+        <h2{{ $article->user->name }}の投稿記事一覧</h2>
         @if (session('err_msg'))
         <p class="text-danger">
             {{ session('err_msg')}}    

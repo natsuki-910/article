@@ -25,7 +25,7 @@
                 <td>{{ $article->id }}
                 <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
                 <td>{{ $article->updated_at }}</td>
-                <td><a href="/user">投稿者名</a></td>
+                <td><a href="/user">{{ $article->user->name }}</a></td>
                 <td><button type="button" class="btn btn-primary" onclick="location.href='/article/edit/{{ $article->id }}'">編集</button></td>
                 <form method="POST" action="{{ route('delete', $article->id) }}" onSubmit="return checkDelete()">
             @csrf

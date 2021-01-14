@@ -42,4 +42,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Article');
     }
 
+    // 追加
+    public function getArticles()
+    {
+        return $this
+            ->find(1)
+            ->articles()
+            ->get();
+    }
 }
