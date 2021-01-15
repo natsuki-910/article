@@ -18,9 +18,15 @@ class Article extends Model
     ];
 
 
+    protected $guarded = array('id');
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
     }
     
+    public function getData() 
+    {
+        return $this->article;
+    }
 }

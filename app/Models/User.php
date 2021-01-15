@@ -37,17 +37,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $guarded = array('id');
+
     public function articles()
     {   
         return $this->hasMany('App\Models\Article');
     }
 
-    // 追加
-    public function getArticles()
+    public function getData()
     {
-        return $this
-            ->find(1)
-            ->articles()
-            ->get();
+        return $this->name;
     }
+
+
 }
