@@ -88,7 +88,7 @@ class ArticleController extends Controller
 
         // 登録する項目に必要な値を代入します
         $files->title = $request->title;
-        dd($request->title, $request->content,$request->filename );
+        // dd($request->title, $request->content,$request->filename );
         $files->content = $request->content;
         $files->file_name = $filename;
         

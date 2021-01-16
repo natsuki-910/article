@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     // テーブル名
-    protected $table = 'articles';//使いたいテーブル名を指定
+    protected $table = 'articles';
 
     //可変項目
     protected $fillable =
@@ -25,8 +25,8 @@ class Article extends Model
         return $this->belongsTo('App\Models\User');
     }
     
-    public function getData() 
-    {
-        return $this->article;
-    }
+    // public function getData() 
+    // {
+    //     return $this->article;
+    // }
 }
