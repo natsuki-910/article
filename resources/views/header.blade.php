@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="{{ route('articles') }}">マイページ<span class="sr-only"></span></a>
-  <a class="nav-item nav-link active" href="{{ route('articles') }}">記事</a>
+  <a class="navbar-brand" href="{{ route('articles') }}">記事<span class="sr-only"></span></a>
+  {{-- <a class="nav-item nav-link active" href="{{ route('articles') }}">記事</a> --}}
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
