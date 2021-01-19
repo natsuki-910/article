@@ -24,7 +24,8 @@ class UserController extends Controller
     //         'articles' => $articles, // $userの書いた記事をviewへ渡す
     //     ]);
     // }
-
+    
+    //ログインしていないとController内の処理ができないようにする
     public function __construct()
     {
         $this->middleware('auth')->except(['index']);

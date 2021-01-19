@@ -26,19 +26,14 @@
                     <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
                     <td>{{ $article->updated_at }}</td>
                     <td>{{ $article->user->name }}</td>
-                    <td><button type="button" class="btn btn-primary" onclick="location.href='/article/edit/{{ $article->id }}'">編集</button></td>
-                    <form method="POST" action="{{ route('delete', $article->id) }}" onSubmit="return checkDelete()">
-                @csrf
-                
-                    {{-- <td><button type="submit" class="btn btn-primary" onclick=>削除</button></td> --}}
-                
-                @auth
-                    @if (($article->user->id) === (Auth::user()->id))
-                        <td><a href="{{ route('edit') }}?id={{ $article->id }}">編集</a></td>
-                        <td><a href="{{ route('delete') }}?id={{ $article->id }}">削除</a></td>
-                    @endif
-                @endauth
-
+                    @auth
+                        @if (($article->user->id) === (Auth::user()->id))
+                            <td><button type="button" class="btn btn-primary" onclick="location.href='/article/edit/{{ $article->id }}'">編集</button></td>
+                            <td><button type="submit" class="btn btn-primary" onclick=>削除</button></td>
+                            <form method="POST" action="{{ route('delete', $article->id) }}" onSubmit="return checkDelete()">
+                            @csrf
+                        @endif
+                    @endauth                
                 </tr>
             @endforeach
         </table>
