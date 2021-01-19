@@ -19,9 +19,9 @@
                 <th></th>
             </tr>
 
-            @foreach ($articles as $article)
+            @foreach ($items as $item)
             <tr>
-                <td>{{ $article->id }}
+                <td>{{ $item->name }}
                 <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
                 <td>{{ $article->updated_at }}</td>
                 <td><button type="button" class="btn btn-primary" onclick="location.href='/article/edit/{{ $article->id }}'">編集</button></td>
@@ -30,7 +30,8 @@
                 <td><button type="submit" class="btn btn-primary" onclick=>削除</button></td>
             </tr>
             @endforeach
-        </table>
+        </table> 
+
     </div>
 </div>
 <script>

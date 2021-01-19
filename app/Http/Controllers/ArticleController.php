@@ -24,6 +24,7 @@ class ArticleController extends Controller
     {
         //Articleのデータを全部取得
         $articles = Article::all();
+        // dd($articles);
 
         //article.listのbladeの中に$articleを配列の形で渡す
         return view('article.list', ['articles' => $articles]);
@@ -78,11 +79,13 @@ class ArticleController extends Controller
     {   
         //記事のデータを受け取る
         $inputs = $request->all();
-    
+        // dd($request->all());    
         $path = $request->file('img')->store('public/images');
 
         // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
         $filename = basename($path);
+        
+
         
         $files = new Article;
 

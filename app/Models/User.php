@@ -44,10 +44,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Article');
     }
 
-    // public function getData()
-    // {
-    //     return $this->name;
-    // }
+    public function getData()
+    {
+        return $this->name;
+    }
 
 
 }

@@ -12,9 +12,12 @@ class Article extends Model
     //可変項目
     protected $fillable =
     [
+        'id',
+        'user_id',
         'title',
         'content',
-        'file_name'
+        'file_name',
+        
     ];
 
 
@@ -25,8 +28,8 @@ class Article extends Model
         return $this->belongsTo('App\Models\User');
     }
     
-    // public function getData() 
-    // {
-    //     return $this->article;
-    // }
+    public function getData() 
+    {
+        return $this->article;
+    }
 }

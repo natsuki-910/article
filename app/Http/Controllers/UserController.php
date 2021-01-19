@@ -30,9 +30,9 @@ class UserController extends Controller
         $this->middleware('auth')->except(['index']);
     }
 
-    public function show()
+    public function index(Request $request)
     {
-        $users = User::All();
-        return view('user.show', ['users' => $users]);
-
+        $items = User::all();
+        return view('user.index', ['items' => $items]);
+    }
 }
