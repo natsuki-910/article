@@ -16,6 +16,7 @@
 
 //記事一覧画面を表示
 Route::get('/', 'ArticleController@showList')->name('articles');
+// Route::get('/', 'ArticleController@index')->name('articles');
 
 //記事登録画面を表示
 Route::get('/article/create', 'ArticleController@showCreate')->name('create');

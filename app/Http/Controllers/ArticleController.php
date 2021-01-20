@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\User;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,10 @@ class ArticleController extends Controller
     public function showList()
     {
         //Articleのデータを全部取得
-        $articles = Article::all();
+        // $articles = Article::all();
+        // $articles = User::all();
+        $articles = Article::with('user')->get();
+        // $articles = User::with('articles')->get();
         // dd($articles);
 
         //article.listのbladeの中に$articleを配列の形で渡す
@@ -196,7 +200,5 @@ class ArticleController extends Controller
         \Session::flash('err_msg', '削除しました。');
         return redirect(route('articles'));
     }
-
-
 
 }

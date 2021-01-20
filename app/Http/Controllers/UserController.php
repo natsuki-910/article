@@ -27,9 +27,9 @@ class UserController extends Controller
         // $user = Auth::user();
         // dd($user->id);
 
-        // $items = User::all();
-        $items = Article::with('user')->get();
-        dd($items);
+        $items = User::all();
+        // $items = Article::with('user')->get();
+        // dd($items);
         return view('user.index', ['items' => $items]);
     }
 }

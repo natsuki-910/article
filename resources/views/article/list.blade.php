@@ -18,14 +18,16 @@
                 <th>投稿者</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
 
             @foreach ($articles as $article)
                 <tr>
-                    <td>{{ $article->id }}
+                    <td>{{ $article->id }}</td>
                     <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
                     <td>{{ $article->updated_at }}</td>
                     <td><a href="/user">{{ $article->user->name }}</a></td>
+                    <td>{{ $article->getData() }}</td>
                     @auth
                         @if (($article->user->id) === (Auth::user()->id))
                             <td><button type="button" class="btn btn-primary" onclick="location.href='/article/edit/{{ $article->id }}'">編集</button></td>
@@ -36,21 +38,19 @@
                             <td></td>
                             <td></td>
                         @endif
-                    
-                    @endauth  
-                                
-                </tr>
+                    @endauth
+                </tr>    
             @endforeach
         </table>
     </div>
 </div>
 <script>
-function checkDelete(){
-    if(window.confirm('削除してよろしいですか？')){
-        return true;
-    } else {
-        return false;
+    function checkDelete(){
+        if(window.confirm('削除してよろしいですか？')){
+            return true;
+        } else {
+            return false;
+        }
     }
-}
 </script>
 @endsection
