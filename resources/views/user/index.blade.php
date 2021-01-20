@@ -1,9 +1,9 @@
 @extends('layout')
-@section('title','投稿者のページ')
+@section('title','投稿者の一覧')
 @section('content')
 <div class="row">
     <div class="col-md-10 col-md-offset-2">
-        <h2>投稿者のページ</h2>
+        <h2>投稿者の一覧</h2>
         @if (session('err_msg'))
         <p class="text-danger">
             {{ session('err_msg')}}    
@@ -12,55 +12,20 @@
 
         <table class="table table-striped">
             <tr>
-                <th>data</th>
+                <th>名前</th>
+                <th>メールアドレス</th>
+                <th>記事へ</th>
             </tr>
 
             @foreach ($items as $item)
                 <tr>
-                    <td>{{ $item->getData() }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->email }}</td>
+                  
                 </tr>
             @endforeach
 
         </table>
     </div>
 </div>
-<script>
-function checkDelete(){
-    if(window.confirm('削除してよろしいですか？')){
-        return true;
-    } else {
-        return false;
-    }
-}
-</script>
 @endsection
-
-
-
-
-{{-- <table>
-    <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>email</th>
-        <th>message</th>
-        <th>title</th>
-        <th>content</th>
-    </tr>
-    @foreach ($items as $item)
-        <tr>
-            <td>{{$item->id}}</td>
-            <td>{{$item->name}}</td>
-            <td>{{$item->email}}</td>
-            <td>{{$item->title}}</td>
-            <td>{{$item->conetnt}}</td>
-            <td>
-                <ul>
-                    @foreach($item->articles as $obj)
-                        <li>{{$obj->getData()}}</li>
-                    @endforeach
-                </ul>
-            </td>
-        </tr>
-    @endforeach
-</table> --}}

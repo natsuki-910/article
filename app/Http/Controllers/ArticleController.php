@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class ArticleController extends Controller
 {
 
-      //ログインしていないとController内の処理ができないようにする
+    //  ログインしていないとController内の処理ができないようにする
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('auth')->except(['exeSrore']);
     }
 
 
@@ -86,7 +86,7 @@ class ArticleController extends Controller
 
         //記事のデータを受け取る
         $inputs = $request->all();
-        // dd($request->all());    
+        dd($inputs);    
         $path = $request->file('img')->store('public/images');
 
         // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
@@ -101,7 +101,7 @@ class ArticleController extends Controller
         $files->title = $request->title;
         $files->content = $request->content;
         $files->file_name = $filename;
-        
+        // $files->fill($inputs)->save();
         // データベースに保存します
         $files->save();
         

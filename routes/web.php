@@ -41,4 +41,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 // ユーザーの投稿一覧表示画面
-Route::get('/user/index', 'UserController@index')->name('user_index');
+Route::get('/user', 'UserController@index')->name('user_index');
