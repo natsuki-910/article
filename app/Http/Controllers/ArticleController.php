@@ -83,6 +83,7 @@ class ArticleController extends Controller
         //ログインしているユーザーを取得
         $user = Auth::user();
         // dd($user->id);
+
         //記事のデータを受け取る
         $inputs = $request->all();
         // dd($request->all());    
@@ -91,35 +92,34 @@ class ArticleController extends Controller
         // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
         $filename = basename($path);
         
-
+        // $items = Article::with('user')->get();
         
         $files = new Article;
 
         // 登録する項目に必要な値を代入します
         $files->user_id = $user->id;
         $files->title = $request->title;
-        // dd($request->title, $request->content,$request->filename );
         $files->content = $request->content;
         $files->file_name = $filename;
         
         // データベースに保存します
-        // $files->save();
+        $files->save();
         
         //記事を登録
         // Article::create($inputs);
         
-        try {
-            // データベースに保存します
-            $files->save();
-            \DB::beginTransaction();
-            \DB::commit();
-        } catch(\Throwable $e) {
-            \DB::rollback();
-            abort(500);
-        }
+    //     try {
+    //         // データベースに保存します
+    //         $files->save();
+    //         \DB::beginTransaction();
+    //         \DB::commit();
+    //     } catch(\Throwable $e) {
+    //         \DB::rollback();
+    //         abort(500);
+    //     }
 
-        \Session::flash('err_msg', '記事を登録しました。');
-        return redirect(route('articles')); 
+    //     \Session::flash('err_msg', '記事を登録しました。');
+    //     return redirect(route('articles')); 
     }
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Article;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -33,7 +34,13 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $items = User::all();
-        return view('user.index', ['items' => $items]);
+        //ログインしているユーザーを取得
+        // $user = Auth::user();
+        // dd($user->id);
+
+        // $items = User::all();
+        // $items = Article::with('user')->get();
+        // dd($items);
+        // return view('user.index', ['items' => $items]);
     }
 }

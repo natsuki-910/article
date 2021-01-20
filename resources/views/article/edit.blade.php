@@ -52,12 +52,12 @@
             </div>
             
             <div class="mt-5">
-                <a class="btn btn-secondary" href="{{ route('articles') }}">
-                    キャンセル
-                </a>
                 <button type="submit" class="btn btn-primary">
                     更新する
                 </button>
+                <a class="btn btn-secondary" href="{{ route('articles') }}">
+                    キャンセル
+                </a>
             </div>
         </form>
     </div>

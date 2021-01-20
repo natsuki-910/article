@@ -30,6 +30,6 @@ class Article extends Model
     
     public function getData() 
     {
-        return $this->article;
+        return $this->id . ':' . $this->name;
     }
 }
