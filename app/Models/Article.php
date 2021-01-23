@@ -27,9 +27,6 @@ class Article extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
-    
-    public function getData() 
-    {
-        return 'ID:' . $this->id . 'User_id:' . $this->user->id . 'title:' . $this->title . 'content:' . $this->content;
-    }
+
+
 }

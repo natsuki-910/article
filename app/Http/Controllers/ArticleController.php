@@ -29,7 +29,6 @@ class ArticleController extends Controller
         // $articles = Article::all();
         // $articles = User::all();
         $articles = Article::with('user')->get();
-        // $articles = User::with('articles')->get();
         // dd($articles);
 
         //article.listのbladeの中に$articleを配列の形で渡す

@@ -15,8 +15,8 @@
                 <th>記事番号</th>
                 <th>タイトル</th>
                 <th>日付</th>
-                <th>投稿者</th>
-                <th></th>
+                <th>ユーザーID</th>
+                <th>ユーザー名</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -26,8 +26,10 @@
                     <td>{{ $article->id }}</td>
                     <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
                     <td>{{ $article->updated_at }}</td>
-                    <td><a href="/user">{{ $article->user->name }}</a></td>
-                    <td>{{ $article->getData() }}</td>
+                    <td><a href="/user">{{ $article->user->id }}</a></td> 
+                    <td>{{ $article->user->name }}</td>
+
+                                    
                     @auth
                         @if (($article->user->id) === (Auth::user()->id))
                             <td><button type="button" class="btn btn-primary" onclick="location.href='/article/edit/{{ $article->id }}'">編集</button></td>
