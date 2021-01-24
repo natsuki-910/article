@@ -32,4 +32,24 @@ class UserController extends Controller
         // dd($items);
         return view('user.index', ['items' => $items]);
     }
+
+    /**
+     * 特定のユーザーの記事一覧を表示する
+     * 
+     * @return view
+     */
+    public function show(User $user)
+    {
+        $user = User::find($user->id);
+        dd($user);//idが、リクエストされた$userのidと一致するuserを取得
+        $articles = Article::where('user_id', $user->id) //$userによる投稿を取得
+            ->orderBy('created_at', 'desc') // 投稿作成日が新しい順に並べる
+            ->paginate(10); // ページネーション; 
+
+        return view('user.show', [
+            'user_name' => $user->name, // $user名をviewへ渡す
+            'articles' => $articles, // $userの書いた記事をviewへ渡す
+        ]);
+    }
+    
 }

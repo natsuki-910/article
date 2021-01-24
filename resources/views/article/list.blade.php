@@ -15,7 +15,6 @@
                 <th>記事番号</th>
                 <th>タイトル</th>
                 <th>日付</th>
-                <th>ユーザーID</th>
                 <th>ユーザー名</th>
                 <th></th>
                 <th></th>
@@ -26,8 +25,7 @@
                     <td>{{ $article->id }}</td>
                     <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
                     <td>{{ $article->updated_at }}</td>
-                    <td><a href="/user">{{ $article->user->id }}</a></td> 
-                    <td>{{ $article->user->name }}</td>
+                    <td><a href="{{ $article->user->name }}">{{ $article->user->name }}</a></td>
 
                                     
                     @auth

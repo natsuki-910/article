@@ -41,5 +41,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-// ユーザーの投稿一覧表示画面
+// ユーザー一覧表示画面
 Route::get('/user', 'UserController@index')->name('user_index');
+
+// ユーザーの投稿一覧表示画面
+Route::get('/show', 'UserController@show')->name('user_show');

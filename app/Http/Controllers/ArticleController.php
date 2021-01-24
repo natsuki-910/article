@@ -89,7 +89,7 @@ class ArticleController extends Controller
 
         //記事のデータを受け取る
         $inputs = $request->all();
-        dd($inputs);    
+        // dd($inputs);    
         $path = $request->file('img')->store('public/images');
 
         // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
@@ -106,23 +106,23 @@ class ArticleController extends Controller
         $files->file_name = $filename;
         // $files->fill($inputs)->save();
         // データベースに保存します
-        $files->save();
+        // $files->save();
         
         //記事を登録
         // Article::create($inputs);
         
-    //     try {
-    //         // データベースに保存します
-    //         $files->save();
-    //         \DB::beginTransaction();
-    //         \DB::commit();
-    //     } catch(\Throwable $e) {
-    //         \DB::rollback();
-    //         abort(500);
-    //     }
+        try {
+            // データベースに保存します
+            $files->save();
+            \DB::beginTransaction();
+            \DB::commit();
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            abort(500);
+        }
 
-    //     \Session::flash('err_msg', '記事を登録しました。');
-    //     return redirect(route('articles')); 
+        \Session::flash('err_msg', '記事を登録しました！');
+        return redirect(route('articles')); 
     }
 
 
