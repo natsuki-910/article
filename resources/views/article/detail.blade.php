@@ -6,7 +6,9 @@
         <h2>{{ $article->title }}</h2>
         <p>作成日：{{ $article->created_at }}</p>
         <p>更新日：{{ $article->updated_at }}</p>
+        @if ($article->file_name)
         <img src="{{ asset('storage/images/' . $article->file_name) }}">
+        @endif
         <p>{{ $article->content }}</p>
     </div>
 </div>

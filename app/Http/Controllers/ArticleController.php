@@ -25,9 +25,7 @@ class ArticleController extends Controller
      */
     public function showList()
     {
-        //Articleのデータを全部取得
-        // $articles = Article::all();
-        // $articles = User::all();
+  
         $articles = Article::with('user')->get();
         // dd($articles);
 
@@ -85,7 +83,10 @@ class ArticleController extends Controller
         
         //ログインしているユーザーを取得
         $user = Auth::user();
-        // dd($user->id);
+        // dd($user);
+        // $articles = Article::with('user')->get();
+        // dd($articles);
+
 
         //記事のデータを受け取る
         $inputs = $request->all();
@@ -95,18 +96,21 @@ class ArticleController extends Controller
         // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
         $filename = basename($path);
         
-        // $items = Article::with('user')->get();
-        
         $files = new Article;
+        // dd($files);
 
         // 登録する項目に必要な値を代入します
         $files->user_id = $user->id;
+        // dd($files->user_id);
         $files->title = $request->title;
         $files->content = $request->content;
+        // dd($files->content);
         $files->file_name = $filename;
+        // dd($files->title, $files->content, $files->file_name);
+
         // $files->fill($inputs)->save();
         // データベースに保存します
-        // $files->save();
+        $files->save();
         
         //記事を登録
         // Article::create($inputs);
