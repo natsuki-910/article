@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\User;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class ArticleController extends Controller
 {
@@ -83,51 +84,62 @@ class ArticleController extends Controller
         
         //ログインしているユーザーを取得
         $user = Auth::user();
-        // dd($user);
-        // $articles = Article::with('user')->get();
-        // dd($articles);
-
 
         //記事のデータを受け取る
         $inputs = $request->all();
         // dd($inputs);    
-        $path = $request->file('img')->store('public/images');
 
-        // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
-        $filename = basename($path);
         
         $files = new Article;
-        // dd($files);
 
         // 登録する項目に必要な値を代入します
         $files->user_id = $user->id;
-        // dd($files->user_id);
         $files->title = $request->title;
         $files->content = $request->content;
-        // dd($files->content);
-        $files->file_name = $filename;
-        // dd($files->title, $files->content, $files->file_name);
+        
+        //アップロードに成功しているか確認
+        if($request->hasFile('img')) {
+            if($request->file('img')->isValid()) {
+                $path = $request->file('img')->store('public/images');
 
-        // $files->fill($inputs)->save();
-        // データベースに保存します
+                // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
+                $filename = basename($path);     
+                $files->file_name = $filename;
+            }
+        
+        }
         $files->save();
         
-        //記事を登録
-        // Article::create($inputs);
-        
-        try {
-            // データベースに保存します
-            $files->save();
-            \DB::beginTransaction();
-            \DB::commit();
-        } catch(\Throwable $e) {
-            \DB::rollback();
-            abort(500);
-        }
-
-        \Session::flash('err_msg', '記事を登録しました！');
-        return redirect(route('articles')); 
+        // $path = $request->file('img')->store('public/images');
     }
+
+    
+    
+        // // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
+        // $filename = basename($path);     
+       
+        // $files = new Article;
+
+        // // 登録する項目に必要な値を代入します
+        // $files->user_id = $user->id;
+        // $files->title = $request->title;
+        // $files->content = $request->content;
+        // $files->file_name = $filename;
+        
+    //     //記事を登録
+    //     try {
+    //         // データベースに保存します
+    //         $files->save();
+    //         \DB::beginTransaction();
+    //         \DB::commit();
+    //     } catch(\Throwable $e) {
+    //         \DB::rollback();
+    //         abort(500);
+    //     }
+
+    //     \Session::flash('err_msg', '記事を登録しました！');
+    //     return redirect(route('articles')); 
+    
 
 
 
