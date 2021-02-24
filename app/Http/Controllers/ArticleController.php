@@ -7,7 +7,7 @@ use App\Models\Article;
 use App\Models\User;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+
 
 class ArticleController extends Controller
 {
@@ -19,29 +19,30 @@ class ArticleController extends Controller
     }
 
 
+
     /**
      * 記事一覧を表示する
      * 
      * @return view
      */
+
     public function showList()
     {
-  
         $articles = Article::with('user')->get();
-        // dd($articles);
 
         //article.listのbladeの中に$articleを配列の形で渡す
         return view('article.list', ['articles' => $articles]);
-   
     }
     
-
+    
+    
     /**
      * 記事詳細を表示する
      * @param int $id
      * @return view
      */
-    public function showDetail($id)//routeのリンクからわたってくるのでidを受け取る
+    
+     public function showDetail($id)//routeのリンクからわたってくるのでidを受け取る
     {
         //idの記事の中身を引っ張ってくる
         $article = Article::find($id);
@@ -50,7 +51,7 @@ class ArticleController extends Controller
         if(is_null($article)) {
             \Session::flash('err_msg', 'データがありません。');//移動したときに出るメッセージ
             return redirect(route('articles'));//一覧画面に戻す(articlesはrouteの名前)
-        }
+        };
 
         //article.detailのbladeの中に$articleを配列の形で渡す
         return view('article.detail', ['article' => $article]);
@@ -71,7 +72,6 @@ class ArticleController extends Controller
 
 
 
-
     /**
      * 記事を登録する
      * 
@@ -80,74 +80,44 @@ class ArticleController extends Controller
     
     //ArticleRewuestを$requestという変数に入れる→$requestでデータを受け取れるようになる
     public function exeStore(ArticleRequest $request)
-    {   
-        
-        //ログインしているユーザーを取得
-        $user = Auth::user();
-
-        //記事のデータを受け取る
-        $inputs = $request->all();
-        // dd($inputs);    
-
+    {       
+        //ログインしているユーザーのidを取得
+        $user = Auth::id();
         
         $files = new Article;
-
         // 登録する項目に必要な値を代入します
-        $files->user_id = $user->id;
+        $files->user_id = $user;
         $files->title = $request->title;
         $files->content = $request->content;
-        
-        //アップロードに成功しているか確認
-        if($request->hasFile('img')) {
-            if($request->file('img')->isValid()) {
-                $path = $request->file('img')->store('public/images');
 
-                // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
-                $filename = basename($path);     
-                $files->file_name = $filename;
-            }
-        
+        if(!empty($request->file('img'))) {
+            $path = $request->file('img')->store('public/images');
+            $filename = basename($path);    // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg 
+            $files->file_name = $filename;
         }
-        $files->save();
         
-        // $path = $request->file('img')->store('public/images');
+        //記事を登録
+        try {
+            $files->save();// データベースに保存します
+            \DB::beginTransaction();
+            \DB::commit();
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            abort(500);
+        }
+
+        \Session::flash('err_msg', '記事を登録しました！');
+        return redirect(route('articles')); 
     }
 
-    
-    
-        // // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg
-        // $filename = basename($path);     
-       
-        // $files = new Article;
-
-        // // 登録する項目に必要な値を代入します
-        // $files->user_id = $user->id;
-        // $files->title = $request->title;
-        // $files->content = $request->content;
-        // $files->file_name = $filename;
-        
-    //     //記事を登録
-    //     try {
-    //         // データベースに保存します
-    //         $files->save();
-    //         \DB::beginTransaction();
-    //         \DB::commit();
-    //     } catch(\Throwable $e) {
-    //         \DB::rollback();
-    //         abort(500);
-    //     }
-
-    //     \Session::flash('err_msg', '記事を登録しました！');
-    //     return redirect(route('articles')); 
-    
 
 
-
-     /**
+    /**
      * 記事編集フォームを表示する
      * @param int $id
      * @return view
      */
+
     public function showEdit($id)
     {
         //Articleのデータを全部取得
@@ -162,7 +132,9 @@ class ArticleController extends Controller
         return view('article.edit', ['article' => $article]);
     }
 
- /**
+
+
+    /**
      * 記事を更新する
      * 
      * @return view
@@ -191,13 +163,15 @@ class ArticleController extends Controller
         \Session::flash('err_msg', '記事を更新しました。');
         return redirect(route('articles'));
     }
-
-
+    
+    
+    
     /**
      * 記事を削除
      * @param int $id
      * @return view
      */
+
     public function exeDelete($id)
     {
         if(empty($id)) {

@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
                 $table->unsignedBigInteger('user_id');
                 $table->string('title', 100);
                 $table->text('content');
-                $table->string('file_name');
+                $table->string('file_name')->nullable();
                 $table->timestamps();
 
                 $table->foreign('user_id')->references('id')->on('users');
