@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\User;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 
 class ArticleController extends Controller
@@ -139,9 +140,9 @@ class ArticleController extends Controller
      * 
      * @return view
      */
-    
     public function exeUpdate(ArticleRequest $request)
     {
+
         //記事のデータを受け取る
         $inputs = $request->all();
 
@@ -163,14 +164,14 @@ class ArticleController extends Controller
         \Session::flash('err_msg', '記事を更新しました。');
         return redirect(route('articles'));
     }
-    
-    
-    
-    /**
-     * 記事を削除
-     * @param int $id
-     * @return view
-     */
+
+
+
+    // /**
+    //  * 記事を削除
+    //  * @param int $id
+    //  * @return view
+    //  */
 
     public function exeDelete($id)
     {
@@ -178,8 +179,17 @@ class ArticleController extends Controller
             \Session::flash('err_msg', 'データがありません。');
             return redirect(route('articles'));
         }
-
+    
+        $article = Article::find($id);
+        
         try {
+            
+            // 取得したデータからfile_nameカラムの情報を取得する
+            $delFileName = $article->file_name;
+    
+            // storage/app/public/imagesから、画像ファイルを削除する
+            Storage::delete('public/images/' . $delFileName);
+            
             //記事を削除
             Article::destroy($id);
         } catch(\Throwable $e) {

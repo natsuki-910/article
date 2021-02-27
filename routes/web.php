@@ -30,10 +30,13 @@ Route::get('/article/{id}', 'ArticleController@showDetail')->name('show');
 //記事編集画面を表示
 Route::get('/article/edit/{id}', 'ArticleController@showEdit')->name('edit');
 
+//記事の更新
 Route::post('/article/update', 'ArticleController@exeUpdate')->name('update');
 
 //記事の削除
 Route::post('/article/delete/{id}', 'ArticleController@exeDelete')->name('delete');
+// Route::post('/article/delete', 'ArticleController@exeDelete')->name('delete');
+// Route::delete('/article/delete', 'ArticleController@exeDelete')->name('delete');
 
 
 Auth::routes();

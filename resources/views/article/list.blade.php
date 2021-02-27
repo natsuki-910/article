@@ -31,9 +31,10 @@
                     @auth
                         @if (($article->user->id) === (Auth::user()->id))
                             <td><button type="button" class="btn btn-primary" onclick="location.href='/article/edit/{{ $article->id }}'">編集</button></td>
-                            <td><button type="submit" class="btn btn-primary" onclick=>削除</button></td>
-                            <form method="POST" action="{{ route('delete', $article->id) }}" onSubmit="return checkDelete()">
+                            <form method="post" action="{{ route('delete', $article->id) }}" onSubmit="return checkDelete()">
                             @csrf
+                            <td><button type="submit" class="btn btn-primary" onclick=>削除</button></td>
+                            </form>
                         @else
                             <td></td>
                             <td></td>
