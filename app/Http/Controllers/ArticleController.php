@@ -91,10 +91,13 @@ class ArticleController extends Controller
         $files->title = $request->title;
         $files->content = $request->content;
 
-        if(!empty($request->file('img'))) {
-            $path = $request->file('img')->store('public/images');
-            $filename = basename($path);    // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg 
-            $files->file_name = $filename;
+        if($request->hasFile('img')) {
+            
+            if($request->file('img')->isValid()) {
+                $path = $request->file('img')->store('public/images');
+                $filename = basename($path);    // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg 
+                $files->file_name = $filename;
+            }
         }
         
         //記事を登録
@@ -141,25 +144,44 @@ class ArticleController extends Controller
      * @return view
      */
     public function exeUpdate(ArticleRequest $request)
-    {
-
+    {   
+        // dd($request);
         //記事のデータを受け取る
         $inputs = $request->all();
+        // dd($inputs);
+        $article = Article::find($inputs['id']);
+        // dd($article);
+        if($request->hasFile('img')) {
+            // dd($request);
+            if($request->file('img')->isValid()){
+                
+                $delFileName = $article->file_name;
+                Storage::delete('public/images/' . $delFileName);
+                $path = $request->file('img')->store('public/images');
+                $filename = basename($path);
+                $article->file_name = $filename;
+            }
+        }
 
-        \DB::beginTransaction();
-        try {
+            
+            // \DB::beginTransaction();
+        // try {
             //記事を更新
-            $article = Article::find($inputs['id']);
+            // dd($article);
             $article->fill([
                 'title' => $inputs['title'],
                 'content' => $inputs['content'],
-            ]);
+                ]);
+
+                
+
+                
             $article->save();
-            \DB::commit();
-        } catch(\Throwable $e) {
-            \DB::rollback();
-            abort(500);
-        }
+        //     \DB::commit();
+        // } catch(\Throwable $e) {
+        //     \DB::rollback();
+        //     abort(500);
+        // }
 
         \Session::flash('err_msg', '記事を更新しました。');
         return redirect(route('articles'));

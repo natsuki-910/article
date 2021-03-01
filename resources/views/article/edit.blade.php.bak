@@ -8,7 +8,9 @@
         @csrf
         <input type="hidden" name="id" value="{{ $article->id }}">
             <div class="form-group">
-                <label for="title">タイトル</label>
+                <label for="title">
+                    タイトル
+                </label>
                 <input
                     id="title"
                     name="title"
