@@ -31,7 +31,7 @@ class ArticleController extends Controller
     {
         $articles = Article::with('user')->get();
 
-        //article.listのbladeの中に$articleを配列の形で渡す
+        //articleのlist.bladeに$articleを配列の形で渡す
         return view('article.list', ['articles' => $articles]);
     }
     
@@ -43,18 +43,18 @@ class ArticleController extends Controller
      * @return view
      */
     
-     public function showDetail($id)//routeのリンクからわたってくるのでidを受け取る
+     public function showDetail($id)//routeのリンクから渡ってくるidを受け取る
     {
-        //idの記事の中身を引っ張ってくる
+        //idの記事の中身を取得
         $article = Article::find($id);
         
         //もし何らかの理由でidがないものがあったらどうするか(もしnullだったら)
         if(is_null($article)) {
-            \Session::flash('err_msg', 'データがありません。');//移動したときに出るメッセージ
-            return redirect(route('articles'));//一覧画面に戻す(articlesはrouteの名前)
+            \Session::flash('err_msg', 'データがありません。');
+            return redirect(route('articles'));
         };
 
-        //article.detailのbladeの中に$articleを配列の形で渡す
+        //articleのdetail.bladeの中に$articleを配列の形で渡す
         return view('article.detail', ['article' => $article]);
     }
 
@@ -79,32 +79,34 @@ class ArticleController extends Controller
      * @return view
      */
     
-    //ArticleRewuestを$requestという変数に入れる→$requestでデータを受け取れるようになる
+    //ArticleRequestを$requestという変数に入れる→$requestでデータを受け取れるようになる
     public function exeStore(ArticleRequest $request)
     {       
         //ログインしているユーザーのidを取得
         $user = Auth::id();
         
         $files = new Article;
-        // 登録する項目に必要な値を代入します
+
+        // 登録する項目に必要な値を代入
         $files->user_id = $user;
         $files->title = $request->title;
         $files->content = $request->content;
 
         if($request->hasFile('img')) {
-            
             if($request->file('img')->isValid()) {
                 $path = $request->file('img')->store('public/images');
-                $filename = basename($path);    // パスから、最後の「ファイル名.拡張子」の部分だけ取得します 例)sample.jpg 
+                $filename = basename($path);    // パスから、最後の「ファイル名.拡張子」の部分だけ取得　例)sample.jpg 
                 $files->file_name = $filename;
             }
         }
         
-        //記事を登録
         try {
-            $files->save();// データベースに保存します
+
+            //記事を登録
+            $files->save();
             \DB::beginTransaction();
             \DB::commit();
+        
         } catch(\Throwable $e) {
             \DB::rollback();
             abort(500);
@@ -124,7 +126,7 @@ class ArticleController extends Controller
 
     public function showEdit($id)
     {
-        //Articleのデータを全部取得
+        //idの記事の中身を取得
         $article = Article::find($id);
         
         if(is_null($article)) {
@@ -132,7 +134,6 @@ class ArticleController extends Controller
             return redirect(route('articles'));
         }
 
-        //article.listのbladeの中に$articleを配列の形で渡す
         return view('article.edit', ['article' => $article]);
     }
 
@@ -145,16 +146,12 @@ class ArticleController extends Controller
      */
     public function exeUpdate(ArticleRequest $request)
     {   
-        // dd($request);
         //記事のデータを受け取る
         $inputs = $request->all();
-        // dd($inputs);
         $article = Article::find($inputs['id']);
-        // dd($article);
+        
         if($request->hasFile('img')) {
-            // dd($request);
-            if($request->file('img')->isValid()){
-                
+            if($request->file('img')->isValid()) {
                 $delFileName = $article->file_name;
                 Storage::delete('public/images/' . $delFileName);
                 $path = $request->file('img')->store('public/images');
@@ -164,36 +161,34 @@ class ArticleController extends Controller
         }
 
             
-            // \DB::beginTransaction();
-        // try {
+        \DB::beginTransaction();
+        try {
+            
             //記事を更新
-            // dd($article);
             $article->fill([
                 'title' => $inputs['title'],
                 'content' => $inputs['content'],
-                ]);
+            ]);
 
-                
-
-                
             $article->save();
-        //     \DB::commit();
-        // } catch(\Throwable $e) {
-        //     \DB::rollback();
-        //     abort(500);
-        // }
+            \DB::commit();
+        
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            abort(500);
+        }
 
-        \Session::flash('err_msg', '記事を更新しました。');
+        \Session::flash('err_msg', '記事を更新しました！');
         return redirect(route('articles'));
     }
 
 
 
-    // /**
-    //  * 記事を削除
-    //  * @param int $id
-    //  * @return view
-    //  */
+    /**
+     * 記事を削除
+     * @param int $id
+     * @return view
+     */
 
     public function exeDelete($id)
     {
@@ -214,11 +209,12 @@ class ArticleController extends Controller
             
             //記事を削除
             Article::destroy($id);
+        
         } catch(\Throwable $e) {
             abort(500);
         }        
 
-        \Session::flash('err_msg', '削除しました。');
+        \Session::flash('err_msg', '記事を削除しました。');
         return redirect(route('articles'));
     }
 

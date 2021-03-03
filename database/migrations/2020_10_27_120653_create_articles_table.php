@@ -23,8 +23,8 @@ class CreateArticlesTable extends Migration
                 $table->string('file_name')->nullable();
                 $table->timestamps();
 
+                //$table->foreign(外部キーカラム)->references(主キーカラム)->on(主キーテーブル);
                 $table->foreign('user_id')->references('id')->on('users');
-                // // $table->foreign(外部キーカラム)->references(主キーカラム)->on(主キーテーブル);
             });
 
         }
@@ -35,7 +35,7 @@ class CreateArticlesTable extends Migration
      *
      * @return void
      */
-    public function down()//削除
+    public function down()
     {
         Schema::dropIfExists('articles');
     }

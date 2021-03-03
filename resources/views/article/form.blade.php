@@ -41,34 +41,32 @@
 
             <div class="form-group">
                 <label>画像選択</lavel>
+                <br>
                 <input type="file" name="img" accept=".png,.jpg,.jpeg,image/png,image/jpg">
                 
                 @if ($errors->has('file_name'))
-                <div class="text-danger">
-                    {{ $errors->first('file_name') }}
-                </div>
+                    <div class="text-danger">
+                        {{ $errors->first('file_name') }}
+                    </div>
                 @endif   
             </div>
 
             <div class="mt-5">
-                <button type="submit" class="btn btn-primary">
-                    投稿する
-                </button>
-                <a class="btn btn-secondary" href="{{ route('articles') }}">
-                    キャンセル
-                </a>
+                <button type="submit" class="btn btn-primary">投稿する</button>
+                <a class="btn btn-secondary" href="{{ route('articles') }}">キャンセル</a>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    function checkSubmit(){
-        if(window.confirm('送信してよろしいですか？')){
+    function checkSubmit() {
+        if(window.confirm('送信してよろしいですか？')) {
             return true;
         } else {
             return false;
         }
     }
 </script>
+
 @endsection
