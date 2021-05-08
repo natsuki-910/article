@@ -27,13 +27,35 @@ class ArticleController extends Controller
      * @return view
      */
 
-    public function showList()
-    {
-        $articles = Article::with('user')->get();
+    // public function showList()
+    // {
+    //     $articles = Article::with('user')->get();
 
-        //articleのlist.bladeに$articleを配列の形で渡す
-        return view('article.list', ['articles' => $articles]);
-    }
+    //     //articleのlist.bladeに$articleを配列の形で渡す
+    //     return view('article.list', ['articles' => $articles]);
+
+    // }
+
+    
+   
+        public function showList(Request $request)
+        {
+            $keyword = $request->input('keyword');
+     
+            $query = Article::query();
+            // dd($query);
+     
+            if (!empty($keyword)) {
+                $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('user_id','LIKE',"%{$keyword}%");
+            }
+            
+            $articles = $query->get();
+            // dd($articles);
+ 
+        return view('article.list', compact('articles', 'keyword'));
+        }
+
+    
     
     
     

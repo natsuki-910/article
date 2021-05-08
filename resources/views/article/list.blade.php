@@ -11,6 +11,14 @@
         </p>
         @endif
 
+</div>
+        
+        <form action="{{ route('serch')}}" method="GET"　class="form-inline my-2 my-lg-0 ml-2">
+            <p><input type="text" name="keyword" class="form-control mr-sm-2"　value="{{$keyword}}"></p>
+            <p><input type="submit" value="検索" class="btn btn-primary"></p>
+        </form>
+        
+        
         <table class="table table-striped">
             <tr>
                 <th>No.</th>

@@ -14,6 +14,10 @@
 //記事一覧画面を表示する
 Route::get('/', 'ArticleController@showList')->name('articles');
 
+//記事一覧画面を表示する
+Route::get('/serch', 'ArticleController@showList')->name('serch');
+
+
 //記事登録画面を表示する
 Route::get('/article/create', 'ArticleController@showCreate')->name('create');
 
