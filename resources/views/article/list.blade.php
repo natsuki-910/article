@@ -13,16 +13,16 @@
 
 </div>
         
-        <form action="{{ route('serch')}}" method="GET"　class="form-inline my-2 my-lg-0 ml-2">
+        <form action="{{ route('search')}}" method="GET"　class="form-inline my-2 my-lg-0 ml-2">
             <p><input type="text" name="keyword" class="form-control mr-sm-2"　value="{{$keyword}}"></p>
             <p><input type="submit" value="検索" class="btn btn-primary"></p>
         </form>
-        
         
         <table class="table table-striped">
             <tr>
                 <th>No.</th>
                 <th>タイトル</th>
+                <th>内容</th>
                 <th>投稿日</th>
                 <th>投稿者</th>
                 <th></th>
@@ -33,6 +33,7 @@
             <tr>
                 <td>{{ $article->id }}</td>
                 <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
+                <td><a href="/article/{{ $article->id }}">{!! nl2br(e(Str::limit($article->content,10))) !!}</a></td>
                 <td>{{ $article->updated_at }}</td>
                 <td>{{ $article->user->name }}</td>
 

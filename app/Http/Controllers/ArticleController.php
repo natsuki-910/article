@@ -38,25 +38,22 @@ class ArticleController extends Controller
 
     
    
-        public function showList(Request $request)
-        {
-            $keyword = $request->input('keyword');
-     
-            $query = Article::query();
-            // dd($query);
-     
-            if (!empty($keyword)) {
-                $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('user_id','LIKE',"%{$keyword}%");
-            }
-            
-            $articles = $query->get();
-            // dd($articles);
- 
-        return view('article.list', compact('articles', 'keyword'));
+    public function showList(Request $request)
+    {
+        $keyword = $request->input('keyword');
+    
+        $query = Article::query();
+        // dd($query);
+    
+        if (!empty($keyword)) {
+            $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%");
         }
+        
+        $articles = $query->get();
+        // dd($articles);
 
-    
-    
+        return view('article.list', compact('articles', 'keyword'));
+    }
     
     
     /**

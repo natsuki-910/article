@@ -15,7 +15,7 @@
 Route::get('/', 'ArticleController@showList')->name('articles');
 
 //記事一覧画面を表示する
-Route::get('/serch', 'ArticleController@showList')->name('serch');
+Route::get('/search', 'ArticleController@showList')->name('search');
 
 
 //記事登録画面を表示する

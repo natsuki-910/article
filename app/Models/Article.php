@@ -20,13 +20,14 @@ class Article extends Model
         
     ];
 
-
+    //主キーのセット(PRIMARY KEYを持つカラム)
     protected $guarded = array('id');
 
     public function user()
     {
         return $this->belongsTo('App\Models\User');
     }
+
 
 
 }
