@@ -34,9 +34,10 @@ class ArticleController extends Controller
         $query = Article::query();
     
         if (!empty($keyword)) {
-            $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%");
+            $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%")->orwhereHas('user', function ($query) use ($request) {
+                $query->where('name', $request->keyword);
+            });
         }
-        
         $articles = $query->paginate(5);
 
         return view('article.list', compact('articles', 'keyword'));
