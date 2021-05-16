@@ -30,17 +30,14 @@ class ArticleController extends Controller
     public function showList(Request $request)
     {
         $keyword = $request->input('keyword');
-    
+
         $query = Article::query();
     
         if (!empty($keyword)) {
             $query->where('title', 'LIKE', "%{$keyword}%")
-                  ->orWhere('content', 'LIKE', "%{$keyword}%")
-                  ->orwhereHas('user', function ($query) use ($request) {
-                    $query->where('name', $request->keyword);
-                    });
+                  ->orWhere('content', 'LIKE', "%{$keyword}%");
         }
-        
+
         $articles = $query->paginate(5);
 
         return view('article.list', compact('articles', 'keyword'));
