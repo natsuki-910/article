@@ -11,12 +11,8 @@
 |
 */
 
-//記事一覧画面を表示する
+//記事一覧画面と検索を表示する
 Route::get('/', 'ArticleController@showList')->name('articles');
-
-//記事一覧画面を表示する
-Route::get('/search', 'ArticleController@showList')->name('search');
-
 
 //記事登録画面を表示する
 Route::get('/article/create', 'ArticleController@showCreate')->name('create');

@@ -22,62 +22,52 @@ class ArticleController extends Controller
 
 
     /**
-     * 記事一覧を表示する
+     * 記事一覧の表示と検索
      * 
      * @return view
      */
 
-    // public function showList()
-    // {
-    //     $articles = Article::with('user')->get();
-
-    //     //articleのlist.bladeに$articleを配列の形で渡す
-    //     return view('article.list', ['articles' => $articles]);
-
-    // }
-
-    
-   
     public function showList(Request $request)
     {
         $keyword = $request->input('keyword');
     
         $query = Article::query();
-        // dd($query);
     
         if (!empty($keyword)) {
             $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%");
         }
         
-        $articles = $query->get();
-        // dd($articles);
+        $articles = $query->paginate(5);
 
         return view('article.list', compact('articles', 'keyword'));
     }
-    
-    
+
+
+
+
+
     /**
      * 記事詳細を表示する
      * @param int $id
      * @return view
      */
     
-     public function showDetail($id)//routeのリンクから渡ってくるidを受け取る
+    public function showDetail($id)//routeのリンクから渡ってくるidを受け取る
     {
         //idの記事の中身を取得
         $article = Article::find($id);
-        
+
         //もし何らかの理由でidがないものがあったらどうするか(もしnullだったら)
         if(is_null($article)) {
             \Session::flash('err_msg', 'データがありません。');
             return redirect(route('articles'));
         };
-
+        
         //articleのdetail.bladeの中に$articleを配列の形で渡す
         return view('article.detail', ['article' => $article]);
     }
-
-
+    
+    
 
     /**
      * 記事登録画面を表示する
@@ -181,8 +171,7 @@ class ArticleController extends Controller
 
             
         \DB::beginTransaction();
-        try {
-            
+        try { 
             //記事を更新
             $article->fill([
                 'title' => $inputs['title'],
@@ -192,7 +181,7 @@ class ArticleController extends Controller
             $article->save();
             \DB::commit();
         
-        } catch(\Throwable $e) {
+        }   catch(\Throwable $e) {
             \DB::rollback();
             abort(500);
         }
@@ -219,7 +208,6 @@ class ArticleController extends Controller
         $article = Article::find($id);
         
         try {
-            
             // 取得したデータからfile_nameカラムの情報を取得する
             $delFileName = $article->file_name;
     

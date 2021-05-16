@@ -12,11 +12,13 @@
         @endif
 
 </div>
-        
-        <form action="{{ route('search')}}" method="GET"　class="form-inline my-2 my-lg-0 ml-2">
-            <p><input type="text" name="keyword" class="form-control mr-sm-2"　value="{{$keyword}}"></p>
+
+        <form action="{{ route('articles')}}" method="GET"　class="form-inline my-2 my-lg-0 ml-2">
+        @csrf
+            <p><input type="text" name="keyword" class="form-control mr-sm-2"　value="{{ $keyword }}"></p>
             <p><input type="submit" value="検索" class="btn btn-primary"></p>
-        </form>
+        </form> 
+
         
         <table class="table table-striped">
             <tr>
@@ -52,6 +54,10 @@
             </tr>    
             @endforeach
         </table>
+
+        <div class="paginate">
+            {{ $articles->links() }}
+        </div>
     </div>
 </div>
 

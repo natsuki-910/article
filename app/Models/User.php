@@ -37,8 +37,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $guarded = array('id');
-
     public function articles()
     {   
         return $this->hasMany('App\Models\Article');
