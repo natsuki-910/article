@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h2>記事編集フォーム</h2>
-        <form method="POST" action="{{ route('update') }}" enctype="multipart/form-data" onSubmit="return checkSubmit()">
+        <form method="POST" action="{{ route('update') }}" enctype="multipart/form-data" onSubmit="return  checkSubmit()">
         @csrf
             <input type="hidden" name="id" value="{{ $article->id }}">
                 <div class="form-group">

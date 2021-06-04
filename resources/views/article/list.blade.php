@@ -13,12 +13,14 @@
 
 </div>
 
-        <form action="{{ route('articles')}}" method="GET"　class="form-inline my-2 my-lg-0 ml-2">
-        @csrf
-            <p><input type="text" name="keyword" class="form-control mr-sm-2"　value="{{ $keyword }}"></p>
-            <p><input type="submit" value="検索" class="btn btn-primary"></p>
-        </form> 
-
+        <p><input type="text" name="keyword" class="form-control mr-sm-2" id="keyword"></p>
+        <p><input type="button" value="検索" class="btn btn-primary" id="get_articles"></p>
+        
+        
+        
+        {{-- <form method="GET" class="form-inline my-2 my-lg-0 ml-2" > --}}
+        {{-- @csrf --}}
+        {{-- </form> --}} 
         
         <table class="table table-striped">
             <tr>
@@ -32,7 +34,7 @@
             </tr>
 
             @foreach ($articles as $article)
-            <tr>
+            <tr class="article-list">
                 <td>{{ $article->id }}</td>
                 <td><a href="/article/{{ $article->id }}">{{ $article->title }}</a></td>
                 <td><a href="/article/{{ $article->id }}">{!! nl2br(e(Str::limit($article->content,10))) !!}</a></td>
@@ -69,6 +71,93 @@
             return false;
         }
     }
+
+
+    $(function() {
+        
+        $('#get_articles').on('click', function() {
+
+            var keyword = $('#keyword').val();
+            // console.log(keyword);
+        //     var request = $.ajax({
+        //         type: 'GET',
+        //         url: '/article/search/' + keyword,
+        //         // url: '/article/search/',
+        //         cache: false,
+        //         data: { keyword: keyword },
+        //         // data: keyword,
+        //         dataType: 'json',
+        //         timeout: 3000
+        //     });
+        //         // console.log(request);
+
+        //     /* 成功時 */
+        //     request.done(function(data) {
+        //         console.log(data);
+        //         alert("通信に成功しました");
+        //     });
+
+        //     /* 失敗時 */
+        //     request.fail(function(jqXHR, textStatus, errorThrown) {
+
+        //         // 通信失敗時の処理
+        //             console.log("ajax通信に失敗しました");
+        //             console.log("jqXHR          : " + jqXHR.status); // HTTPステータスが取得
+        //             console.log("textStatus     : " + textStatus);    // タイムアウト、パースエラー
+        //             console.log("errorThrown    : " + errorThrown.message); // 例外情報
+        //             console.log("URL            : " + url);
+        //     });
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+            },
+            url:'/article/search/' + keyword,
+            type:'POST',
+            data:{
+                'keyword': keyword
+            },
+            dataType:'json',
+            // contentType: '',
+            }).done(function (data){
+                console.log(data);
+                alert("通信に成功しました");
+                $('.article-list').remove();
+
+                $.each(data.articles, function (index, value) {
+                    let id = value.id;
+                    let title = value.title;
+                    let content = value.content;
+                    let updated_at = value.updated_at;
+                    let user_name = value.user.name;
+                    let html = `
+                            <tr>
+                                <td>${id}</td>
+                                <td>${title}</td>
+                                <td>${content}</td>
+                                <td>${updated_at}</td>
+                                <td>${user_name}</td>
+                            </tr>
+                            ` ;
+
+                    $('.table').append(html); 
+                });
+
+            }).fail(function(jqXHR,textStatus,errorThrown){
+                console.log("ajax通信に失敗しました");
+                console.log("jqXHR          : " + jqXHR.status); // HTTPステータスが取得
+                console.log("textStatus     : " + textStatus);    // タイムアウト、パースエラー
+                console.log("errorThrown    : " + errorThrown.message); // 例外情報
+                console.log("URL            : " + url);
+
+            });
+        });
+    });
+
+    
+
+    
+
 </script>
 
 @endsection

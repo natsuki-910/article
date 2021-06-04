@@ -11,13 +11,23 @@
 |
 */
 
-//記事一覧画面と検索を表示する
+//RouteとはURLとコントローラーのアクションの対応ルールのこと→ルーティング
+//このURLにアクセスされたときにこのコントローラーのアクションを呼び出してくださいと定義する
+//Route::getではアクセスする際にパラメータを設定して値を渡すことができる
+//記事一覧画面を表示する
+
 Route::get('/', 'ArticleController@showList')->name('articles');
+// Route::get('/', 'ArticleController@index')->name('articles');
+
+// 記事の検索をする
+Route::post('/article/search/{keyword}', 'ArticleController@search')->name('search');
+// Route::get('article/search', 'ArticleController@search')->name('search');
+
 
 //記事登録画面を表示する
 Route::get('/article/create', 'ArticleController@showCreate')->name('create');
 
-//記事を登録する
+//記事を登録する                                            
 Route::post('/article/store', 'ArticleController@exeStore')->name('store');
 
 //記事詳細画面を表示する
@@ -36,4 +46,3 @@ Route::post('/article/delete/{id}', 'ArticleController@exeDelete')->name('delete
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-

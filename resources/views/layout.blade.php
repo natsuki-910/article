@@ -7,6 +7,7 @@
         <title>@yield('title')</title>
         <link rel="stylesheet" href="/css/app.css">
         <script src="/js/app.js" defer></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
 
     <body>

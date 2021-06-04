@@ -27,22 +27,60 @@ class ArticleController extends Controller
      * @return view
      */
 
-    public function showList(Request $request)
+    // public function search(Request $request)
+    // // public function search($keyword)
+    // {
+    //     // dd($request);
+    //     $keyword = $request->input('keyword');
+    //     // dd($keyword);
+    //     $query = Article::query();
+    //     // dd($query);
+    //     if (!empty($keyword)) {
+    //     $articles = $query->where('title', 'LIKE', "%{$keyword}%")
+    //                 ->orWhere('content', 'LIKE', "%{$keyword}%");
+    //     // dd($articles);
+    //     return response()->json($articles);
+        
+    //     }
+    // }
+
+
+    /**
+     * 記事一覧の表示
+     * 
+     * @return view
+     */
+    public function showList()
     {
-        $keyword = $request->input('keyword');
+        $articles = Article::all();
+        $articles = Article::orderBy('created_at','desc')->paginate(5);
+        
+        //article.listのbladeの中に$articleを配列の形で渡す
+        return view('article.list', ['articles' => $articles]);
 
-        $query = Article::query();
-    
-        if (!empty($keyword)) {
-            $query->where('title', 'LIKE', "%{$keyword}%")
-                  ->orWhere('content', 'LIKE', "%{$keyword}%");
-        }
-
-        $articles = $query->paginate(5);
-
-        return view('article.list', compact('articles', 'keyword'));
+   
     }
 
+     /**
+     * 記事の検索
+     * 
+     * @return json
+     */
+    
+     public function search(Request $request)
+    {
+        
+        $keyword = $request->keyword;
+        // $query = Article::query();
+        
+        // $articles = $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%");
+        
+        $articles = Article::where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%")->get();
+        // dd($articles);
+
+        // return response()->json($articles);
+        return response()->json(['articles' => $articles]);
+    }
 
 
 
