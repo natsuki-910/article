@@ -50,11 +50,15 @@ class ArticleController extends Controller
      * 
      * @return view
      */
+
     public function showList()
     {
         $articles = Article::all();
+        // dd($articles->user());
+        // foreach($articles as $article){
+        //     dd($article->user());
+        // }
         $articles = Article::orderBy('created_at','desc')->paginate(5);
-        
         //article.listのbladeの中に$articleを配列の形で渡す
         return view('article.list', ['articles' => $articles]);
 
@@ -67,19 +71,19 @@ class ArticleController extends Controller
      * @return json
      */
     
-     public function search(Request $request)
+    public function search(Request $request)
     {
-        
         $keyword = $request->keyword;
-        // $query = Article::query();
-        
-        // $articles = $query->where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%");
-        
+                
         $articles = Article::where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%")->get();
-        // dd($articles);
+       
+        $users = array();
+        foreach($articles as $article) {
+            $user = $article->user->name;
+            $users[] = $user;
+        }
 
-        // return response()->json($articles);
-        return response()->json(['articles' => $articles]);
+        return response()->json(['articles' => $articles, 'users' => $users]);
     }
 
 

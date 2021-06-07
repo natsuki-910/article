@@ -127,15 +127,15 @@
                 $.each(data.articles, function (index, value) {
                     let id = value.id;
                     let title = value.title;
-                    let content = value.content;
-                    let updated_at = value.updated_at;
+                    let content = value.content.substr(0,9) + '...';
+                    let updated = value.updated_at; 
                     let user_name = value.user.name;
                     let html = `
                             <tr>
                                 <td>${id}</td>
                                 <td>${title}</td>
                                 <td>${content}</td>
-                                <td>${updated_at}</td>
+                                <td>${updated}</td>
                                 <td>${user_name}</td>
                             </tr>
                             ` ;
