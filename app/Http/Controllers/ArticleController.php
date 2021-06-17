@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
+
 class ArticleController extends Controller
 {
 
@@ -20,71 +21,112 @@ class ArticleController extends Controller
     }
 
 
-
-    /**
-     * 記事一覧の表示と検索
-     * 
-     * @return view
-     */
-
-    // public function search(Request $request)
-    // // public function search($keyword)
-    // {
-    //     // dd($request);
-    //     $keyword = $request->input('keyword');
-    //     // dd($keyword);
-    //     $query = Article::query();
-    //     // dd($query);
-    //     if (!empty($keyword)) {
-    //     $articles = $query->where('title', 'LIKE', "%{$keyword}%")
-    //                 ->orWhere('content', 'LIKE', "%{$keyword}%");
-    //     // dd($articles);
-    //     return response()->json($articles);
-        
-    //     }
-    // }
-
-
     /**
      * 記事一覧の表示
      * 
      * @return view
      */
 
+    // public function showList()
+    // {
+    //     $articles = Article::orderBy('created_at','desc')->paginate(5);
+    //     return view('article.list', compact('articles'));
+    // }
+    
+    // public function fetch(Request $request)
+    // {
+    //     if($request->ajax()) {
+    //         $articles = Article::orderBy('created_at','desc')->paginate(5);
+    //         return view('article.list', compact('articles'))->render();
+    //     }
+    // }
+
+
+    
     public function showList()
     {
-        $articles = Article::all();
-        // dd($articles->user());
-        // foreach($articles as $article){
-        //     dd($article->user());
-        // }
         $articles = Article::orderBy('created_at','desc')->paginate(5);
-        //article.listのbladeの中に$articleを配列の形で渡す
-        return view('article.list', ['articles' => $articles]);
-
-   
+        return view('article.list', compact('articles'));
     }
+
+
+    public function fetchList(Request $request)
+    {
+        if($request->ajax()) {
+            $articles = Article::orderBy('created_at','desc')->paginate(5);
+            return view('article.list_child', compact('articles'))->render();
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        if(!empty($keyword)) {
+            if($request->ajax()) {
+                $articles = Article::orderBy('created_at','desc')
+                ->where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('content', 'LIKE', "%{$keyword}%")
+                ->paginate(5);
+                return view('article.list_child', compact('articles'))->render();
+            }
+        } 
+    }
+
+    // public function index(Request $request)
+    // {
+    //     $keyword = $request->keyword;
+    //     // if(!empty($keyword)) {
+    //     if($keyword !== "hoge") {
+    //         if($request->ajax()) {
+    //             $articles = Article::where('title', 'LIKE', "%{$keyword}%")
+    //             ->orWhere('content', 'LIKE', "%{$keyword}%")
+    //             ->paginate(5);
+    //             // dd($articles);
+    //             return view('article.list_child', compact('articles'))->render();
+    //         }
+    //     } else {
+    //         if($request->ajax()) {
+    //             $articles = Article::orderBy('created_at','desc')->paginate(5);
+    //             return view('article.list_child', compact('articles'))->render();
+    //         }
+    //     }
+    // }
+
+
+
+
+    
 
      /**
      * 記事の検索
      * 
-     * @return json
+     * @return view
      */
     
-    public function search(Request $request)
-    {
-        $keyword = $request->keyword;
-                
-        $articles = Article::where('title', 'LIKE', "%{$keyword}%")->orWhere('content', 'LIKE', "%{$keyword}%")->get();
-       
-        $users = array();
-        foreach($articles as $article) {
-            $user = $article->user->name;
-            $users[] = $user;
-        }
+    // public function search(Request $request)
+    // {
+    //     $keyword = $request->keyword;
+        
+    //     if($request->ajax()) {
+    //         $articles = Article::where('title', 'LIKE', "%{$keyword}%")
+    //         ->orWhere('content', 'LIKE', "%{$keyword}%")
+    //         ->paginate(5);
+    //         return view('article.list', compact('articles'))->render();
+    //     }
+    // }   
 
-        return response()->json(['articles' => $articles, 'users' => $users]);
-    }
+
+            // $users = array();
+            // foreach($articles as $article) {
+                //     $user = $article->user->name;
+                //     $users[] = $user;
+                // }
+                // return view('article.list', ['articles' => $articles, 'users' => $users])->render();
+                // return view('article.list', compact($articles))->render();
+                
+
+
+    
 
 
 
@@ -147,7 +189,7 @@ class ArticleController extends Controller
         if($request->hasFile('img')) {
             if($request->file('img')->isValid()) {
                 $path = $request->file('img')->store('public/images');
-                $filename = basename($path);    // パスから、最後の「ファイル名.拡張子」の部分だけ取得　例)sample.jpg 
+                $filename = basename($path);    // パスから、最後の「ファイル名.拡張子」の部分だけ取得 例)sample.jpg 
                 $files->file_name = $filename;
             }
         }

@@ -22,15 +22,4 @@ class Article extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
-
-    // public function getUsers() 
-    // {
-    //     $users = array();
-    //     foreach($articles as $article) {
-    //         $user = $article->user->name;
-    //         $users[] = $user;
-    //     }
-    //     return $users;
-    // }
-
 }

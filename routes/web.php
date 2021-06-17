@@ -11,27 +11,21 @@
 |
 */
 
-//RouteとはURLとコントローラーのアクションの対応ルールのこと→ルーティング
-//このURLにアクセスされたときにこのコントローラーのアクションを呼び出してくださいと定義する
-//Route::getではアクセスする際にパラメータを設定して値を渡すことができる
 //記事一覧画面を表示する
-
 Route::get('/', 'ArticleController@showList')->name('articles');
-// Route::get('/', 'ArticleController@index')->name('articles');
+Route::post('/article/show', 'ArticleController@fetchList')->name('show');
 
 // 記事の検索をする
 Route::post('/article/search/{keyword}', 'ArticleController@search')->name('search');
-// Route::get('article/search', 'ArticleController@search')->name('search');
-
 
 //記事登録画面を表示する
 Route::get('/article/create', 'ArticleController@showCreate')->name('create');
 
-//記事を登録する                                            
+//記事を登録する
 Route::post('/article/store', 'ArticleController@exeStore')->name('store');
 
 //記事詳細画面を表示する
-Route::get('/article/{id}', 'ArticleController@showDetail')->name('show');
+Route::get('/article/detail/{id}', 'ArticleController@showDetail')->name('show');
 
 //記事編集画面を表示する
 Route::get('/article/edit/{id}', 'ArticleController@showEdit')->name('edit');
