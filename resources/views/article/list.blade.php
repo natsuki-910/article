@@ -31,7 +31,7 @@
     }
 
     $(function() {
-        
+
         //記事を削除するときの確認画面
         $(document).on('click', '.delete-article', function() {
             var is_delete_confirmed = checkDelete();
@@ -55,7 +55,6 @@
                 },
                 dataType:'text',
             }).done(function (data) {
-                alert("通信に成功しました");
                 $('.article-table').html(data);
                 $('#keyword').val(keyword);
             }).fail(function(jqXHR,textStatus,errorThrown) {
