@@ -27,29 +27,13 @@ class ArticleController extends Controller
      * @return view
      */
 
-    // public function showList()
-    // {
-    //     $articles = Article::orderBy('created_at','desc')->paginate(5);
-    //     return view('article.list', compact('articles'));
-    // }
-    
-    // public function fetch(Request $request)
-    // {
-    //     if($request->ajax()) {
-    //         $articles = Article::orderBy('created_at','desc')->paginate(5);
-    //         return view('article.list', compact('articles'))->render();
-    //     }
-    // }
-
-
-    
     public function showList()
     {
         $articles = Article::orderBy('created_at','desc')->paginate(5);
         return view('article.list', compact('articles'));
     }
 
-
+    //記事一覧の表示(2ページ目以降)
     public function fetchList(Request $request)
     {
         if($request->ajax()) {
@@ -57,6 +41,13 @@ class ArticleController extends Controller
             return view('article.list_child', compact('articles'))->render();
         }
     }
+
+
+    /**
+     * 記事の検索
+     * 
+     * @return view
+     */
 
     public function search(Request $request)
     {
@@ -72,66 +63,8 @@ class ArticleController extends Controller
         } 
     }
 
-    // public function index(Request $request)
-    // {
-    //     $keyword = $request->keyword;
-    //     // if(!empty($keyword)) {
-    //     if($keyword !== "hoge") {
-    //         if($request->ajax()) {
-    //             $articles = Article::where('title', 'LIKE', "%{$keyword}%")
-    //             ->orWhere('content', 'LIKE', "%{$keyword}%")
-    //             ->paginate(5);
-    //             // dd($articles);
-    //             return view('article.list_child', compact('articles'))->render();
-    //         }
-    //     } else {
-    //         if($request->ajax()) {
-    //             $articles = Article::orderBy('created_at','desc')->paginate(5);
-    //             return view('article.list_child', compact('articles'))->render();
-    //         }
-    //     }
-    // }
-
-
-
-
-    
 
      /**
-     * 記事の検索
-     * 
-     * @return view
-     */
-    
-    // public function search(Request $request)
-    // {
-    //     $keyword = $request->keyword;
-        
-    //     if($request->ajax()) {
-    //         $articles = Article::where('title', 'LIKE', "%{$keyword}%")
-    //         ->orWhere('content', 'LIKE', "%{$keyword}%")
-    //         ->paginate(5);
-    //         return view('article.list', compact('articles'))->render();
-    //     }
-    // }   
-
-
-            // $users = array();
-            // foreach($articles as $article) {
-                //     $user = $article->user->name;
-                //     $users[] = $user;
-                // }
-                // return view('article.list', ['articles' => $articles, 'users' => $users])->render();
-                // return view('article.list', compact($articles))->render();
-                
-
-
-    
-
-
-
-
-    /**
      * 記事詳細を表示する
      * @param int $id
      * @return view
@@ -153,7 +86,6 @@ class ArticleController extends Controller
     }
     
     
-
     /**
      * 記事登録画面を表示する
      * 
@@ -164,7 +96,6 @@ class ArticleController extends Controller
     {
         return view('article.form');
     }
-
 
 
     /**
@@ -209,7 +140,6 @@ class ArticleController extends Controller
         \Session::flash('err_msg', '記事を登録しました！');
         return redirect(route('articles')); 
     }
-
 
 
     /**
@@ -276,7 +206,6 @@ class ArticleController extends Controller
     }
 
 
-
     /**
      * 記事を削除
      * @param int $id
@@ -304,7 +233,7 @@ class ArticleController extends Controller
         
         } catch(\Throwable $e) {
             abort(500);
-        }        
+        }
 
         \Session::flash('err_msg', '記事を削除しました。');
         return redirect(route('articles'));

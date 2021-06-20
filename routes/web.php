@@ -13,6 +13,8 @@
 
 //記事一覧画面を表示する
 Route::get('/', 'ArticleController@showList')->name('articles');
+
+//記事一覧画面を表示する(2ページ目以降)
 Route::post('/article/show', 'ArticleController@fetchList')->name('show');
 
 // 記事の検索をする
@@ -34,7 +36,7 @@ Route::get('/article/edit/{id}', 'ArticleController@showEdit')->name('edit');
 Route::post('/article/update', 'ArticleController@exeUpdate')->name('update');
 
 //記事を削除する
-Route::post('/article/delete/{id}', 'ArticleController@exeDelete')->name('delete');
+Route::get('/article/delete/{id}', 'ArticleController@exeDelete')->name('delete');
 
 
 Auth::routes();
