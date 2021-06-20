@@ -57,8 +57,7 @@
             }).done(function (data) {
                 $('.article-table').html(data);
                 $('#keyword').val(keyword);
-            }).fail(function(jqXHR,textStatus,errorThrown) {
-                console.log("ajax通信に失敗しました");
+            }).fail(function(jqXHR, textStatus, errorThrown) {
                 console.log("jqXHR          : " + jqXHR.status); // HTTPステータスが取得
                 console.log("textStatus     : " + textStatus);    // タイムアウト、パースエラー
                 console.log("errorThrown    : " + errorThrown.message); // 例外情報
