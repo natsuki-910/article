@@ -9,7 +9,7 @@ use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-
+//test
 
 class ArticleController extends Controller
 {
